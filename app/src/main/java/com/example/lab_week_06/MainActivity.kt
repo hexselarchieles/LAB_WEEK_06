@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         findViewById(R.id.recycler_view)
     }
 
-    // ✅ Tambahkan OnClickListener ke Adapter
+    // Adapter
     private val catAdapter by lazy {
         CatAdapter(
             layoutInflater,
@@ -30,54 +30,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // ✅ Setup adapter dan layout manager
+        // Setup RecyclerView
         recyclerView.adapter = catAdapter
-        recyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // ✅ Tambahkan swipe delete ke RecyclerView
+        // Pasang swipe-to-delete
         val itemTouchHelper = ItemTouchHelper(catAdapter.swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        // ✅ Tambahkan data ke adapter
+        // Tambahkan 10 data
         catAdapter.setData(
             listOf(
-                CatModel(
-                    Gender.Male,
-                    CatBreed.BalineseJavanese,
-                    "Fred",
-                    "Silent and deadly",
-                    "https://cdn2.thecatapi.com/images/7dj.jpg"
-                ),
-                CatModel(
-                    Gender.Female,
-                    CatBreed.ExoticShorthair,
-                    "Wilma",
-                    "Cuddly assassin",
-                    "https://cdn2.thecatapi.com/images/egv.jpg"
-                ),
-                CatModel(
-                    Gender.Unknown,
-                    CatBreed.AmericanCurl,
-                    "Curious George",
-                    "Award winning investigator",
-                    "https://cdn2.thecatapi.com/images/bar.jpg"
-                )
+                CatModel(Gender.Male, CatBreed.BalineseJavanese, "Fred", "Silent and deadly", "https://cdn2.thecatapi.com/images/7dj.jpg"),
+                CatModel(Gender.Female, CatBreed.ExoticShorthair, "Wilma", "Cuddly assassin", "https://cdn2.thecatapi.com/images/egv.jpg"),
+                CatModel(Gender.Unknown, CatBreed.AmericanCurl, "Curious George", "Award winning investigator", "https://cdn2.thecatapi.com/images/bar.jpg"),
+                CatModel(Gender.Male, CatBreed.Bengal, "Leo", "Always on the move", "https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg"),
+                CatModel(Gender.Female, CatBreed.Siamese, "Luna", "Loves attention", "https://cdn2.thecatapi.com/images/ai6Jps4sx.jpg"),
+                CatModel(Gender.Male, CatBreed.MaineCoon, "Thor", "Majestic and lazy", "https://cdn2.thecatapi.com/images/MTgwODA1OQ.jpg"),
+                CatModel(Gender.Female, CatBreed.Persian, "Bella", "Fluffy and grumpy", "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"),
+                CatModel(Gender.Male, CatBreed.Sphynx, "Rocky", "Naked but proud", "https://cdn2.thecatapi.com/images/BDb8ZXb1v.jpg"),
+                CatModel(Gender.Female, CatBreed.Ragdoll, "Molly", "Chill and charming", "https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg"),
+                CatModel(Gender.Unknown, CatBreed.ScottishFold, "Milo", "Folded ears, full of curiosity", "https://cdn2.thecatapi.com/images/6q3.jpg")
             )
         )
     }
 
-    // ✅ Dialog pop-up saat item diklik
     private fun showSelectionDialog(cat: CatModel) {
         AlertDialog.Builder(this)
             .setTitle("Cat Selected")
             .setMessage("You have selected cat ${cat.name}")
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
             .show()
     }
 }
