@@ -1,6 +1,7 @@
 package com.example.lab_week_06
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,28 +14,30 @@ class MainActivity : AppCompatActivity() {
         findViewById(R.id.recycler_view)
     }
 
+    // ✅ Tambahkan OnClickListener ke Adapter
     private val catAdapter by lazy {
-        // Glide is used here to load the images
-        CatAdapter(layoutInflater, GlideImageLoader(this))
+        CatAdapter(
+            layoutInflater,
+            GlideImageLoader(this),
+            object : CatAdapter.OnClickListener {
+                override fun onItemClick(cat: CatModel) = showSelectionDialog(cat)
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Setup the adapter for the recycler view
+        // Setup adapter dan layout manager
         recyclerView.adapter = catAdapter
-
-        // Setup the layout manager for the recycler view
-        // A layout manager is used to set the structure of the item views
-        // For this tutorial, we're using the vertical linear structure
         recyclerView.layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
             false
         )
 
-        // Add data to the model list in the adapter
+        // Tambahkan data ke adapter
         catAdapter.setData(
             listOf(
                 CatModel(
@@ -60,5 +63,16 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         )
+    }
+
+    // ✅ Fungsi untuk menampilkan pop-up dialog saat item diklik
+    private fun showSelectionDialog(cat: CatModel) {
+        AlertDialog.Builder(this)
+            .setTitle("Cat Selected")
+            .setMessage("You have selected cat ${cat.name}")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
